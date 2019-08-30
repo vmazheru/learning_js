@@ -1,2 +1,1 @@
-# learning_js
-JavaScript Examples
+JavaScript Examples from Different Cources
