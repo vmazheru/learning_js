@@ -1,1 +1,1 @@
-JavaScript Examples from Different Cources
+JavaScript Examples from online courses

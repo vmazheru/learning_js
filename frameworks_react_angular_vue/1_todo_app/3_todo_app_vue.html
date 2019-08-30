@@ -1,0 +1,47 @@
+<script src="https://unpkg.com/vue">
+</script>
+<script src="https://cdn.jsdelivr.net/lodash/4.17.4/lodash.core.min.js"></script>
+
+<div id="app">
+  <input type="text" v-model="userInput">
+  <button v-on:click="addTodo">Add Todo</button>
+
+  <ul>
+    <li 
+      v-for="todo in todos"
+      v-on:click="removeTodo(todo)">{{ todo.value }}</li>
+  </ul>
+</div>
+
+<script>
+  new Vue({
+  el: '#app',
+  data: {
+    todos: [],
+    userInput: ''
+  },
+  methods: {
+    addTodo: function() {
+      if (this.userInput.trim() == '') {
+        return;
+      }
+      var newTodo = {
+        id: _.uniqueId(),
+        value: this.userInput
+      };
+      this.todos.push(newTodo);
+      console.log(this.todos);
+    },
+    removeTodo(todo) {
+      var id = todo.id;
+      for (var i = 0; i < this.todos.length; i++) {
+        if (this.todos[i].id == id) {
+          this.todos.splice(i, 1);
+          break;
+        }
+      }
+    }
+  }
+});
+
+</script>
