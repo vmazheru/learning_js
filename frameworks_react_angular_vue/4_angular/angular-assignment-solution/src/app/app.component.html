@@ -1,0 +1,22 @@
+<input type="text" [(ngModel)]="newHobbyInput">
+<button (click)="onNewHobby()">New Hobby</button>
+<p *ngIf="hobbyWasDeleted">Hobby deleted!</p>
+<p
+  [ngStyle]="{color: hobbies.length > 3 ? 'red' : 'black'}"
+  [ngClass]="{'multiple-hobbies': hobbies.length > 3}">Hobbies: {{ hobbies.length }}</p>
+<ul>
+  <app-hobby
+    *ngFor="let hobby of hobbies"
+    [hobbyName]="hobby"
+    (hobbyRemoved)="onHobbyRemoved($event)"></app-hobby>
+</ul>
+
+<!--
+  1) Output an array of hobbies (provide some default hobbies)
+  2) Add a 'New Hobby' button + <input> field where you add the hobby the user entered to the list
+  3) Make the hobbies clickable to remove them once clicked
+  4) Add a <p>Hobby deleted!</p> which is only shown once at least one hobby was deleted (be creative on how to track this!)
+  5) Add a hobby counter (<p>Hobbies: ...</p>) above the list of hobbies
+  6) Dynamically style/ add classes to the hobby counter, depending on whether you have more or less than 3 hobbies
+  7) Outsource your hobbies (the <li> elements) into a re-usable component
+-->

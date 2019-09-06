@@ -1,0 +1,99 @@
+<!-- JSFiddle: https://jsfiddle.net/smax/d73outbf/ -->
+
+<script src="https://unpkg.com/react@15/dist/react.js"></script>
+<script src="https://unpkg.com/react-dom@15/dist/react-dom.js"></script>
+
+<div id="app"></div>
+
+<!-- 
+  1) Create a <div> and render a base component with React
+  2) Output an array of hobbies in this <div> (provide some default hobbies)
+  3) Add a 'New Hobby' button + <input> field where you add the hobby the user entered to the list
+  4) Make the hobbies clickable to remove them once clicked
+  5) Add a <p>Hobby deleted!</p> which is only shown once at least one hobby was deleted (be creative on how to track this!)
+  6) Add a hobby counter (<p>Hobbies: ...</p>) above the list of hobbies
+  7) Dynamically style/ add classes to the hobby counter, depending on whether you have more or less than 3 hobbies
+  8) Outsource your hobbies (the <li> elements) into a re-usable component
+-->
+
+<script>
+	function Hobby(props) {
+	return (
+  	<li onClick={() => {props.hobbyClicked(props.hobbyName)}}>
+  	  {props.hobbyName}
+  	</li>
+  );
+}
+
+class App extends React.Component {
+	constructor(props) {
+  	super(props);
+    this.state = {
+    	hobbies: ['Cooking', 'Sports'],
+      newHobbyInput: '',
+      hobbyWasDeleted: false
+    };
+  }
+  
+  changeHobbyInput(event) {
+  	this.setState({
+    	newHobbyInput: event.target.value
+    });
+  }
+  
+  addHobby() {
+  	const oldHobbies = this.state.hobbies;
+    // Check value of newHobbyInput
+    this.setState({
+    	hobbies: oldHobbies.concat(this.state.newHobbyInput)
+    });
+  }
+	
+  removeHobby(hobby) {
+  	const oldHobbies = this.state.hobbies;
+    const position = oldHobbies.indexOf(hobby);
+    this.setState({
+    	hobbies: oldHobbies.filter(
+      	(el, index) => { return index != position }
+      ),
+      hobbyWasDeleted: true
+    });
+  }
+  
+	render() {
+  	let listElements = this.state.hobbies.map(
+    	(hobby, index) => {
+      	return <Hobby 
+                  key={index}
+                  hobbyName={hobby} 
+                  hobbyClicked={this.removeHobby.bind(this)}/>
+      }
+    );
+    let hobbyDeletedParagraph = '';
+    if (this.state.hobbyWasDeleted) {
+    	hobbyDeletedParagraph = <p>Hobby was deleted!</p>
+    }
+    const hobbyCounterStyle = {
+    	color: this.state.hobbies.length > 3 ? 'red' : 'black'
+    };
+    const hobbyCounterClass = this.state.hobbies.length > 3 ? 'multiple-hobbies' : '';
+  	return (
+    	<div>
+    	  <p>My Hobbies</p>
+        <input 
+          type="text"
+          value={this.state.newHobbyInput}
+          onChange={this.changeHobbyInput.bind(this)}/>
+        <button onClick={this.addHobby.bind(this)}>New Hobby</button>
+        {hobbyDeletedParagraph}
+        <p style={hobbyCounterStyle} className={hobbyCounterClass}>Hobbies: {this.state.hobbies.length}</p>
+        <ul>
+          {listElements}
+        </ul>
+    	</div>
+    )
+  }
+}
+
+ReactDOM.render(<App />, document.querySelector('#app'));
+</script>

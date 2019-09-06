@@ -1,0 +1,4 @@
+How to use
+----------
+
+To use this source code, you'll need to run "npm install" in the extracted folder. Thereafter, you should be able to work with it as shown in the videos.

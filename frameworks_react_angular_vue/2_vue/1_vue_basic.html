@@ -1,0 +1,72 @@
+<script src="https://unpkg.com/vue"></script>
+
+<div id="app">
+  <app-username 
+    v-bind:username="'Chris'"
+    v-on:usrclicked="userWasClicked($event)"
+    ></app-username>
+  <app-username v-bind:username="'Anna'"></app-username>
+  <p v-bind:class="{updated: name == 'Max' ? false : true}">{{ name }}</p>
+  <p v-if="name == 'Max' ? false : true">Name updated!</p>
+  <button v-on:click="changeName">Change Name</button>
+  <button
+  n v-on:click="addElement">New Element</button>
+  <ul>
+    <li v-for="element in elements"
+        v-bind:id="'el' + element"
+        v-bind:style="{backgroundColor: getColor(element)}">Element {{ element }}</li>
+  </ul>
+</div>
+
+<div id="app2">
+  <p>Second Vue Instance</p>
+  <input type="text" v-model="message">
+  <p>{{ message }}</p>
+</div>
+
+<script>
+  Vue.component('app-username', {
+  props: ['username'],
+  data: function() {
+    return {
+      // username: 'Chris'
+    }
+  },
+  template: '<p v-on:click="usernameClicked">{{ username }}</p>',
+  methods: {
+    usernameClicked() {
+      this.$emit('usrclicked', this.username);
+    }
+  }
+});
+
+new Vue({
+  el: '#app',
+  data: {
+    name: 'Max',
+    elements: []
+  },
+  methods: {
+    changeName: function() {
+      this.name = 'Anna';
+    },
+    addElement: function() {
+      this.elements.push(this.elements.length + 1);
+    },
+    getColor: function(number) {
+      return number % 2 == 0 ? 'green' : 'red';
+    },
+    userWasClicked(name) {
+      alert(name);
+    }
+  }
+});
+
+new Vue({
+  el: '#app2',
+  data: {
+    message: 'Hello there'
+  }
+});
+
+</script>

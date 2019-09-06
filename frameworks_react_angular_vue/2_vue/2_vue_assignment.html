@@ -1,0 +1,35 @@
+<style>
+  .multiple-hobbies {
+    border: 1px solid red;
+  }
+</style>
+<script src="https://unpkg.com/vue"></script>
+
+<div id="app">
+  <input type="text" v-model="userHobby">
+  <button v-on:click="addHobby">New Hobby</button>
+  <p v-if="hobbyWasDeleted">Hobby was deleted!</p>
+  <p 
+    v-bind:style="{color: hobbies.length > 3 ? 'red' : 'black'}"
+    v-bind:class="{'multiple-hobbies': hobbies.length > 3}">Hobbies: {{ hobbies.length }}</p>
+  <ul>
+    <app-hobby 
+      v-for="hby in hobbies"
+      v-bind:hobby="hby"
+      v-on:hobbyremoved="removeHobby($event)"
+      ></app-hobby>
+  </ul>
+</div>
+
+<!-- 
+  1) Create a <div> and take control with a Vue Instance
+  2) Output an array of hobbies in this <div> (provide some default hobbies)
+  3) Add a 'New Hobby' button + <input> field where you add the hobby the user entered to the list
+  4) Make the hobbies clickable to remove them once clicked
+  5) Add a <p>Hobby deleted!</p> which is only shown once at least one hobby was deleted (be creative on how to track this!)
+  6) Add a hobby counter (<p>Hobbies: ...</p>) above the list of hobbies
+  7) Dynamically style/ add classes to the hobby counter, depending on whether you have more or less than 3 hobbies
+  8) Outsource your hobbies (the <li> elements) into a re-usable component
+-->
+
+<script src="app.js"></script>
